@@ -11,14 +11,32 @@ document.getElementById("queryForm").addEventListener("submit", async function(e
     return;
   }
 
+  // Get hCaptcha response token
+  const hcaptchaResponse = hcaptcha.getResponse();
+  if (!hcaptchaResponse) {
+    showError("請完成人機驗證");
+    return;
+  }
+
   button.classList.add('loading');
   statusMessage.textContent = "正在查詢...";
   response.className = "response";
 
   try {
-    const url = `https://script.google.com/macros/s/AKfycbwkdCnCyYt3HZexrPX_VfhvNmNvxPihafj2-NxVFZL1X9HgYU0kNgcElMF8YZ_ZIPpIkg/exec?action=checkStatus&email=${encodeURIComponent(email)}`;
+    const url = `https://script.google.com/macros/s/AKfycbwkdCnCyYt3HZexrPX_VfhvNmNvxPihafj2-NxVFZL1X9HgYU0kNgcElMF8YZ_ZIPpIkg/exec`;
     
-    const result = await fetch(url);
+    const result = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        action: 'checkStatus',
+        email: email,
+        captchaResponse: hcaptchaResponse
+      })
+    });
+    
     const data = await result.json();
     
     if (data.success) {
@@ -33,6 +51,8 @@ document.getElementById("queryForm").addEventListener("submit", async function(e
     showError("查詢時發生錯誤，請稍後再試。");
   } finally {
     button.classList.remove('loading');
+    // Reset hCaptcha after submission
+    hcaptcha.reset();
   }
 });
 

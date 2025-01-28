@@ -218,6 +218,18 @@ input:focus {
   to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
+.captcha-container {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.h-captcha {
+  transform: scale(0.9);
+  transform-origin: center;
+  margin: 0 auto;
+}
+
 .footer {
   position: fixed;
   bottom: 0;
@@ -261,6 +273,11 @@ input:focus {
   .logo {
     width: 56px;
     height: 56px;
+  }
+  
+  .h-captcha {
+    transform: scale(0.8);
+    margin: -10px auto;
   }
   
   .footer {
