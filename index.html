@@ -1,17 +1,38 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>查詢邀請碼狀態</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>TYCTW查詢邀請碼狀態</title>
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 </head>
 <body>
+  <header class="site-header">
+    <div class="header-container">
+      <a href="https://example.com" class="logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+          <polyline points="13 2 13 9 20 9"></polyline>
+        </svg>
+        <span class="logo-text">TYCTW邀請碼查詢系統</span>
+      </a>
+      <nav class="nav-links">
+        <a href="https://sites.google.com/view/tyctw/">首頁</a>
+        <a href="https://tyctw.github.io/">會考落點分析</a>
+        <a href="https://tyctw.github.io/Admission">桃聯區錄取分數</a>
+      </nav>
+    </div>
+  </header>
+
   <div class="container">
-    <h1>查詢邀請碼狀態</h1>
+    <h1>TYCTW查詢邀請碼狀態</h1>
     <form id="queryForm">
       <label for="email">請輸入電子郵件</label>
       <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+      <div class="h-captcha-container">
+        <div class="h-captcha" data-sitekey="7980a26c-782e-4362-a492-9de013544ec2"></div>
+      </div>
       <button type="submit">
         <span class="button-text">查詢狀態</span>
         <span class="loader"></span>
@@ -21,6 +42,9 @@
     <div id="response" class="response">
       <p id="statusMessage"></p>
     </div>
+    <footer>
+      <p class="copyright">&copy; <span id="year"></span> All Rights Reserved</p>
+    </footer>
   </div>
 
   <script src="script.js"></script>
