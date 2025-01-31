@@ -10,32 +10,14 @@ document.getElementById("queryForm").addEventListener("submit", async function(e
     return;
   }
 
-  // Get hCaptcha response token
-  const hcaptchaResponse = hcaptcha.getResponse();
-  if (!hcaptchaResponse) {
-    showMessage("請完成人機驗證", "error");
-    return;
-  }
-
   button.classList.add('loading');
   statusMessage.textContent = "";
   statusMessage.classList.remove('show');
 
   try {
-    const url = `https://script.google.com/macros/s/AKfycbwkdCnCyYt3HZexrPX_VfhvNmNvxPihafj2-NxVFZL1X9HgYU0kNgcElMF8YZ_ZIPpIkg/exec`;
+    const url = `https://script.google.com/macros/s/AKfycbwkdCnCyYt3HZexrPX_VfhvNmNvxPihafj2-NxVFZL1X9HgYU0kNgcElMF8YZ_ZIPpIkg/exec?action=checkStatus&email=${encodeURIComponent(email)}`;
     
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        action: 'checkStatus',
-        email: email,
-        'h-captcha-response': hcaptchaResponse
-      })
-    });
-    
+    const response = await fetch(url);
     const data = await response.json();
     
     showMessage(data.message || "未找到邀請碼狀態", data.success ? "success" : "error");
@@ -44,8 +26,6 @@ document.getElementById("queryForm").addEventListener("submit", async function(e
     showMessage("查詢時發生錯誤，請稍後再試。", "error");
   } finally {
     button.classList.remove('loading');
-    // Reset hCaptcha
-    hcaptcha.reset();
   }
 });
 
@@ -66,6 +46,3 @@ document.getElementById("email").addEventListener("focus", function() {
 document.getElementById("email").addEventListener("blur", function() {
   this.closest("form").querySelector("label").style.color = "#34495e";
 });
-
-// Add copyright year
-document.getElementById('year').textContent = new Date().getFullYear();
